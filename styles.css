@@ -1,4 +1,4 @@
-/* General Reset */
+/* === RESET === */
 * {
   margin: 0;
   padding: 0;
@@ -7,23 +7,41 @@
 
 body {
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f5f5f5;
-  color: #222;
+  background-color: #121212;
+  color: #e0e0e0;
+  line-height: 1.6;
 }
 
-/* === Banner Section === */
+/* === HEADER / BANNER === */
 .banner {
-  background-image: url('images/AlabamaBanner.jpg'); /* Replace with your own */
+  position: relative;
+  height: 60vh; /* Adjust as needed */
+  background-image: url('images/AlabamaBanner2.jpg');
   background-size: cover;
+  background-repeat: no-repeat;
   background-position: center;
-  height: 60vh;
+  transition: background-image 0.3s ease;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
   text-align: center;
   padding: 2rem;
-  position: relative;
+}
+
+.banner::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('images/matrix.gif');
+  background-size: contain;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .banner::after {
@@ -32,28 +50,41 @@ body {
   top: 0; left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* dark overlay for contrast */
-  z-index: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.6));
+  z-index: 2;
+  pointer-events: none;
 }
 
 .banner-content {
   position: relative;
-  z-index: 1;
+  z-index: 3;
+  gap: 2rem;
 }
 
 .banner h1 {
-  font-size: 3rem;
-  margin-bottom: 0.5rem;
+  font-size: 3.2rem;
+  color: #ffffff;
+  margin-bottom: 1rem;
 }
 
 .banner p {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  color: #dddddd;
   margin-bottom: 1.5rem;
 }
 
-/* Call to Action Button */
+.banner-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  background-color: #181818;
+  padding: 1rem;
+  border-radius: 12px;
+}
+
 .cta-button {
-  padding: 0.8rem 1.5rem;
+  padding: 0.75rem 1.5rem;
   background-color: #0077cc;
   color: white;
   text-decoration: none;
@@ -66,22 +97,35 @@ body {
   background-color: #005fa3;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .banner h1 {
-    font-size: 2rem;
-  }
-  .banner p {
-    font-size: 1rem;
-  }
+/* === SECTION STYLING === */
+section {
+  padding: 4rem 2rem;
+  max-width: 1000px;
+  margin: auto;
 }
 
-/* === Project Section === */
+section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+  color: #ffffff;
+}
+
+section h2::after {
+  content: "";
+  width: 60px;
+  height: 4px;
+  background-color: #0077cc;
+  display: block;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+/* === PROJECTS SECTION === */
 #projects {
-  padding: 2rem;
   background-color: #1e1e1e;
   color: #f0f0f0;
-  text-align: center;
 }
 
 .project-content {
@@ -89,52 +133,162 @@ body {
   justify-content: center;
   flex-wrap: wrap;
   gap: 2rem;
-  margin-top: 1.5rem;
+  padding: 3rem;
 }
 
 .project {
   background-color: #2a2a2a;
   width: 250px;
-  height: 250px;
-  border-radius: 20px;
+  border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 1rem;
-  text-align: left;
+  text-align: center;
+  transition: transform 0.3s ease;
 }
 
 .project:hover {
   transform: scale(1.05);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
 }
 
 .project img {
   width: 100%;
-  height: 120px;
-  object-fit:calc();
-  border-radius: 12px;
-  margin-bottom: 0.75rem;
+  height: 140px;
+  object-fit: cover;
 }
 
 .project h3 {
-  margin: 0.5rem 0 0.25rem;
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  color: #ffffff;
+}
+
+/* === ABOUT SECTION === */
+#about {
+  background-color: #181818;
+}
+
+#about p {
   font-size: 1.1rem;
-}
-
-.project p {
-  font-size: 0.9rem;
   color: #cccccc;
+  max-width: 850px;
+  margin: 1rem auto;
+  text-align: center;
 }
 
-/* === Github Section === */
-#github-info{
-    display: flex;
-    gap:3px;
-    justify-content: center;
-    align-items: center;
+/* === EXPERIENCE SECTION === */
+#experience {
+  background-color: #1a1a1a;
 }
+
+.experience-entry {
+  background-color: #2c2c2c;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+
+.experience-entry:hover {
+  transform: scale(1.02);
+}
+
+.experience-entry h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+
+.experience-entry p {
+  font-size: 0.95rem;
+  color: #aaaaaa;
+  margin-bottom: 1rem;
+}
+
+.experience-entry ul {
+  padding-left: 1.2rem;
+}
+
+.experience-entry li {
+  font-size: 1rem;
+  color: #cccccc;
+  margin-bottom: 0.5rem;
+  list-style-type: disc;
+}
+
+/* === GITHUB SECTION === */
+#github-info {
+  background-color: #111;
+  padding: 2rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+#github-info img {
+  filter: brightness(0.95);
+  transition: transform 0.3s ease;
+}
+
+#github-info img:hover {
+  transform: scale(1.1);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .banner h1 {
+    font-size: 2rem;
+  }
+
+  .banner p {
+    font-size: 1rem;
+  }
+
+  .project {
+    width: 100%;
+  }
+
+  .experience-entry {
+    padding: 1rem;
+  }
+}
+
+
+.github-stats {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.site-footer {
+  background-color: #181818;
+  padding: 2rem;
+  text-align: center;
+  color: #ccc;
+  font-size: 0.95rem;
+  margin-top: 4rem;
+  border-top: 1px solid #333;
+  
+}
+
+.site-footer a {
+  color: #0077cc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+  color: #00aaff;
+}
+.site-footer .footer-content{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+

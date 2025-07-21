@@ -11,40 +11,128 @@
   <header class="banner">
     <div class="banner-content">
       <h1>Zachary West</h1>
-      <p>Computer Science Student • Developer • Problem Solver</p>
-      <a href="#projects" class="cta-button">View My Work</a>
+      <p>Computer Engineer Student • Artist • Problem Solver</p>
+      <div class = "banner-buttons">
+        <a style="background-color: #cc0033" href="https://github.com/Arnoshake" class="cta-button" target ="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/zacharywest2004/" class="cta-button" target ="_blank">LinkedIn</a>
+      </div>
     </div>
   </header>
+
+  <section id="about">
+  <h2>About Me</h2>
+  <p style="text-align: left;">
+    My journey into engineering started in music studios, assisting Grammy-winning producer <a href="https://www.joe-west.com/" target="_blank">Joe West</a> with equipment setups and recording sessions. That hands-on problem-solving extended into theater, where I led technical teams and performed lead roles in over a dozen productions.
+  </p>
+  <p style="text-align: left;">
+    Today, I'm a Computer Engineering student at the University of Alabama, driven by a deep curiosity and love for building. I serve as President of ABXY (UA Gaming Club), Vice President of Quad Squad Volleyball, and co-founded Alabama Competitive Programming.
+  </p>
+  <p style="text-align: left;">
+    I’m currently building full-stack applications, embedded systems with STM32, and game engines in C++. I am starting an embedded systems research position at the University in the Fall of 2026! No matter what I do, I thrive on the process of improvement. 
+  </p>
+</section>
+
+</section>
+
 
   <!-- Other sections -->
   <section id="projects">
     <h2>Projects</h2>
-    <p>Coming soon...</p>
     <div class = "project-content">
+
+      <a href="https://github.com/Arnoshake/Randora" target="_blank" class="project-link">
         <div class = "project">
             <img src="images/projects/Randora_project.png">
             <h3>RANDORA</h3>
         </div>
-        <div class = "project">
+      </a>
+
+        <a href="https://github.com/Arnoshake/ChessBot" target="_blank" class="project-link">
+          <div class = "project">
           <img src="images/projects/chess_project.png">
             <h3>CHESS</h3>
         </div>
-        <div class = "project">
+        </a>
+        <a href="https://github.com/Arnoshake/AnApiOfIceAndFire" target="_blank" class="project-link">
+          <div class = "project">
           <img src="images/WIP.png">
             <h3>GoT DataBase</h3>
         </div>
+        </a>
+        
+        <!-- <div class = "github-stats">
+          <img src="https://github-readme-stats.vercel.app/api?username=Arnoshake&show_icons=true&theme=tokyonight" alt="GitHub Stats">
+
+        </div> -->
         
     </div>
   </section>
-  <section id="github-info">
-    <a href="https://github.com/Arnoshake" target="_blank">
-      <img src="https://ghchart.rshah.org/Arnoshake" alt="GitHub Contribution Chart">
-    </a>
-    <a href="https://www.linkedin.com/in/zacharywest2004/">
-      <img src="images/links/linkedin-svgrepo-com.svg" alt="Linked In" height="50px" width="50px">
-    </a>
+  <section id="experience">
+  <h2>Experience</h2>
+  <div class="experience-entry">
+    <h3>HealthTrust – Executive Intern</h3>
+    <p><strong>Nashville, TN • June 2024 – August 2024</strong></p>
+    <ul>
+      <li>Reported directly to the President & CEO, attending executive-level meetings and strategic discussions.</li>
+      <li>Shadowed senior leadership across cybersecurity, procurement, and financial operations to gain a cross-functional view of healthcare systems.</li>
+      <li>Contributed insights on AI integration and analytics during internal workshops and dashboard reviews.</li>
+    </ul>
+  </div>
+  <div class="experience-entry">
+  <h3>Freelance Technical Assistant – Apprenticeship</h3>
+  <p><strong>Franklin, TN • 2018 – 2025</strong></p>
+  <ul>
+    <li>Assisted in professional audio production setups, including studio sessions and live gig equipment management for a Grammy-winning producer.</li>
+    <li>Installed and relocated large-scale audio gear, installed 25ft flagpole, designed and built a freestanding deck and installed a sauna.</li>
+    <li>Operated and maintained heavy landscaping tools, including regular tractor operation for property management.</li>
+    <li>Served as A1 Grip for a documentary shoot and Production Assistant for an independent TV pilot.</li>
+  </ul>
+</div>
 
-  </section>
+    </section>
+
+
+  <!--FOOTER-->
+  <footer class="site-footer">
+  <div class="footer-content">
+   <a href="mailto:zwest2563@gmail.com"> <strong>zwest2563@gmail.com</strong></a>
+    <p>
+      <a href="RESUME.docx" target="_blank" download>
+        <strong>Download My Resume</strong> 
+      </a>
+    </p>
+    <p>&copy; 2025 Zachary West</p>
+  </div>
+</footer>
+
+  <script>
+  const banner = document.querySelector('.banner');
+
+  const overlay = document.createElement('div');
+  overlay.style.position = 'absolute';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100%';
+  overlay.style.height = '100%';
+  overlay.style.backgroundImage = "url('images/matrix.gif')";
+  overlay.style.backgroundSize = 'cover';
+  overlay.style.backgroundPosition = 'center';
+  overlay.style.opacity = 0;
+  overlay.style.transition = 'opacity 0.6s ease-in-out';
+  overlay.style.zIndex = 1;
+  banner.appendChild(overlay);
+
+  const buttons = document.querySelector('.banner-buttons');
+
+  buttons.addEventListener('mouseenter', () => {
+    overlay.style.opacity = 1;
+  });
+
+  buttons.addEventListener('mouseleave', () => {
+    overlay.style.opacity = 0;
+  });
+</script>
+
 
 </body>
 </html>
