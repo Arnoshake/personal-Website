@@ -375,3 +375,26 @@ section h2::after {
   display: block;
   margin: 20px auto;
 }
+
+
+.hobbies-button-container {
+  text-align: center;
+  margin: 3rem 0 1rem 0;
+}
+
+.go-hobbies {
+  font-size: 1.2rem;
+  padding: 0.8rem 2rem;
+  background-color: #cc0033;
+  border-radius: 10px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.go-hobbies:hover {
+  transform: scale(1.05);
+  background-color: #a60029;
+}
