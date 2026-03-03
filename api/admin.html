@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --matrix: #00FF41; --bg: #0a0a0a; --chassis: #1a1a1a; --chassis-light: #282828; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Fira Code', monospace;
+      background: var(--bg);
+      color: var(--matrix);
+      min-height: 100vh;
+    }
+    a { color: var(--matrix); }
+
+    #loginOverlay {
+      position: fixed; inset: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.95);
+    }
+    #loginOverlay.hidden { display: none; }
+    .login-box {
+      background: var(--chassis);
+      border: 1px solid rgba(0,255,65,0.3);
+      border-radius: 12px;
+      padding: 2rem 2.5rem;
+      width: 100%; max-width: 360px;
+      text-align: center;
+    }
+    .login-box h1 {
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      background: var(--bg);
+      border: 1px solid rgba(0,255,65,0.3);
+      border-radius: 6px;
+      color: var(--matrix);
+      font-family: inherit;
+      font-size: 0.8rem;
+      text-align: center;
+      letter-spacing: 0.3em;
+      outline: none;
+    }
+    .login-box input:focus { border-color: var(--matrix); }
+    .login-box button {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.55rem;
+      background: transparent;
+      border: 1px solid var(--matrix);
+      border-radius: 6px;
+      color: var(--matrix);
+      font-family: inherit;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .login-box button:hover { background: var(--matrix); color: #000; }
+    .login-error {
+      margin-top: 0.8rem;
+      font-size: 0.65rem;
+      color: #ff4141;
+      min-height: 1em;
+    }
+
+    .dashboard { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .dash-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 2rem; padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(0,255,65,0.15);
+    }
+    .dash-header h1 { font-size: 0.9rem; letter-spacing: 0.2em; text-transform: uppercase; }
+    .btn-logout {
+      background: none; border: 1px solid rgba(0,255,65,0.3); color: var(--matrix);
+      font-family: inherit; font-size: 0.6rem; padding: 0.3rem 0.8rem;
+      border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .btn-logout:hover { border-color: #ff4141; color: #ff4141; }
+
+    .panel {
+      background: var(--chassis);
+      border: 1px solid rgba(0,255,65,0.2);
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+    .panel-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: rgba(0,255,65,0.6);
+      margin-bottom: 1rem;
+    }
+
+    .item-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.5rem 0.6rem;
+      border-bottom: 1px solid rgba(0,255,65,0.08);
+      font-size: 0.7rem;
+    }
+    .item-row:last-child { border-bottom: none; }
+    .item-name { flex: 1; }
+    .item-actions { display: flex; gap: 0.5rem; }
+    .btn-sm {
+      background: none; border: 1px solid rgba(0,255,65,0.3); color: var(--matrix);
+      font-family: inherit; font-size: 0.58rem; padding: 0.2rem 0.5rem;
+      border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.08em;
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-sm:hover { background: var(--matrix); color: #000; }
+    .btn-sm.danger { border-color: rgba(255,65,65,0.4); color: #ff6b6b; }
+    .btn-sm.danger:hover { background: #ff4141; color: #000; }
+
+    .btn-add {
+      margin-top: 0.8rem;
+      background: none; border: 1px dashed rgba(0,255,65,0.3); color: rgba(0,255,65,0.5);
+      font-family: inherit; font-size: 0.62rem; padding: 0.4rem 0.8rem;
+      border-radius: 6px; cursor: pointer; width: 100%;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-add:hover { border-color: var(--matrix); color: var(--matrix); }
+
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.85);
+    }
+    .modal-overlay.hidden { display: none; }
+    .modal {
+      background: var(--chassis-light);
+      border: 1px solid rgba(0,255,65,0.3);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      width: 100%; max-width: 520px;
+      max-height: 85vh; overflow-y: auto;
+    }
+    .modal h2 {
+      font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+    }
+    .field { margin-bottom: 0.8rem; }
+    .field label {
+      display: block; font-size: 0.6rem; text-transform: uppercase;
+      letter-spacing: 0.1em; color: rgba(0,255,65,0.5); margin-bottom: 0.25rem;
+    }
+    .field input, .field textarea {
+      width: 100%; padding: 0.5rem 0.7rem;
+      background: var(--bg); border: 1px solid rgba(0,255,65,0.25);
+      border-radius: 6px; color: var(--matrix); font-family: inherit;
+      font-size: 0.7rem; outline: none;
+    }
+    .field textarea { min-height: 80px; resize: vertical; }
+    .field input:focus, .field textarea:focus { border-color: var(--matrix); }
+    .field small { font-size: 0.55rem; color: rgba(0,255,65,0.3); }
+
+    .modal-actions {
+      display: flex; gap: 0.6rem; justify-content: flex-end; margin-top: 1rem;
+    }
+    .modal-actions button {
+      background: none; border: 1px solid var(--matrix); color: var(--matrix);
+      font-family: inherit; font-size: 0.65rem; padding: 0.4rem 1rem;
+      border-radius: 6px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.1em;
+      transition: background 0.15s, color 0.15s;
+    }
+    .modal-actions button:hover { background: var(--matrix); color: #000; }
+    .modal-actions .btn-cancel { border-color: rgba(0,255,65,0.3); color: rgba(0,255,65,0.5); }
+    .modal-actions .btn-cancel:hover { background: transparent; color: var(--matrix); border-color: var(--matrix); }
+
+    /* Resume upload area */
+    .upload-row {
+      display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;
+    }
+    .upload-row input[type="file"] {
+      flex: 1; min-width: 0;
+      font-family: inherit; font-size: 0.62rem; color: var(--matrix);
+    }
+    .upload-row input[type="file"]::file-selector-button {
+      background: transparent; border: 1px solid rgba(0,255,65,0.3);
+      color: var(--matrix); font-family: inherit; font-size: 0.58rem;
+      padding: 0.25rem 0.6rem; border-radius: 4px; cursor: pointer;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      transition: background 0.15s, color 0.15s; margin-right: 0.5rem;
+    }
+    .upload-row input[type="file"]::file-selector-button:hover {
+      background: var(--matrix); color: #000;
+    }
+    .upload-status {
+      font-size: 0.6rem; color: rgba(0,255,65,0.5); min-height: 1.2em;
+      margin-top: 0.5rem;
+    }
+    .upload-status.ok { color: var(--matrix); }
+    .upload-status.err { color: #ff4141; }
+  </style>
+</head>
+<body>
+
+  <!-- Login -->
+  <div id="loginOverlay">
+    <div class="login-box">
+      <h1>Admin Access</h1>
+      <input id="loginPass" type="password" placeholder="Password" autofocus>
+      <button id="loginBtn">Authenticate</button>
+      <div id="loginError" class="login-error"></div>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="dashboard" style="display:none">
+    <div class="dash-header">
+      <h1>Portfolio Admin</h1>
+      <button class="btn-logout" id="logoutBtn">Logout</button>
+    </div>
+
+    <!-- Resume Upload -->
+    <div class="panel">
+      <div class="panel-title">Resume Upload</div>
+      <p style="font-size:0.6rem; color:rgba(0,255,65,0.4); margin-bottom:0.8rem;">
+        Upload a new PDF to overwrite Zachary_West_Resume.pdf in the site root.
+      </p>
+      <div class="upload-row">
+        <input type="file" id="resumeFile" accept=".pdf">
+        <button class="btn-sm" id="uploadResumeBtn">Upload</button>
+      </div>
+      <div id="uploadStatus" class="upload-status"></div>
+    </div>
+
+    <!-- Projects -->
+    <div class="panel">
+      <div class="panel-title">Projects</div>
+      <div id="projectList"></div>
+      <button class="btn-add" id="addProjectBtn">+ Add Project</button>
+    </div>
+
+    <!-- Experiences -->
+    <div class="panel">
+      <div class="panel-title">Experience</div>
+      <div id="expList"></div>
+      <button class="btn-add" id="addExpBtn">+ Add Experience</button>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div id="editModal" class="modal-overlay hidden">
+    <div class="modal">
+      <h2 id="modalTitle">Edit</h2>
+      <form id="editForm"></form>
+      <div class="modal-actions">
+        <button class="btn-cancel" type="button" id="modalCancel">Cancel</button>
+        <button type="button" id="modalSave">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API = window.location.origin;
+    let adminPassword = '';
+
+    function authHeaders() {
+      return { 'Content-Type': 'application/json', 'X-Admin-Password': adminPassword };
+    }
+
+    /* ── Login ── */
+    const loginOverlay = document.getElementById('loginOverlay');
+    const loginPass = document.getElementById('loginPass');
+    const loginError = document.getElementById('loginError');
+
+    async function attemptLogin() {
+      const pw = loginPass.value.trim();
+      if (!pw) return;
+      try {
+        const res = await fetch(API + '/admin/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pw }),
+        });
+        if (!res.ok) throw new Error();
+        adminPassword = pw;
+        loginOverlay.classList.add('hidden');
+        document.getElementById('dashboard').style.display = '';
+        loadAll();
+      } catch {
+        loginError.textContent = 'ACCESS DENIED';
+        loginPass.value = '';
+      }
+    }
+
+    document.getElementById('loginBtn').addEventListener('click', attemptLogin);
+    loginPass.addEventListener('keydown', e => { if (e.key === 'Enter') attemptLogin(); });
+    document.getElementById('logoutBtn').addEventListener('click', () => location.reload());
+
+    /* ── Resume Upload ── */
+    document.getElementById('uploadResumeBtn').addEventListener('click', async () => {
+      const fileInput = document.getElementById('resumeFile');
+      const status = document.getElementById('uploadStatus');
+      const file = fileInput.files[0];
+      if (!file) { status.textContent = 'No file selected.'; status.className = 'upload-status err'; return; }
+      if (!file.name.toLowerCase().endsWith('.pdf')) { status.textContent = 'PDF files only.'; status.className = 'upload-status err'; return; }
+
+      status.textContent = 'Uploading...'; status.className = 'upload-status';
+      const fd = new FormData();
+      fd.append('file', file);
+      try {
+        const res = await fetch(API + '/admin/upload-resume', {
+          method: 'POST',
+          headers: { 'X-Admin-Password': adminPassword },
+          body: fd,
+        });
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        status.textContent = 'Uploaded: ' + data.filename;
+        status.className = 'upload-status ok';
+        fileInput.value = '';
+      } catch {
+        status.textContent = 'Upload failed.';
+        status.className = 'upload-status err';
+      }
+    });
+
+    /* ── Load data ── */
+    let projects = [], experiences = [];
+
+    async function loadAll() {
+      const [pRes, eRes] = await Promise.all([
+        fetch(API + '/projects'),
+        fetch(API + '/experiences'),
+      ]);
+      projects = await pRes.json();
+      experiences = await eRes.json();
+      renderProjects();
+      renderExperiences();
+    }
+
+    function renderProjects() {
+      document.getElementById('projectList').innerHTML = projects.map((p, i) => `
+        <div class="item-row">
+          <span class="item-name">${p.title}</span>
+          <div class="item-actions">
+            <button class="btn-sm" onclick="editProject(${i})">Edit</button>
+            <button class="btn-sm danger" onclick="deleteProject(${i})">Del</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderExperiences() {
+      document.getElementById('expList').innerHTML = experiences.map((e, i) => `
+        <div class="item-row">
+          <span class="item-name">${e.title} — ${e.company}</span>
+          <div class="item-actions">
+            <button class="btn-sm" onclick="editExp(${i})">Edit</button>
+            <button class="btn-sm danger" onclick="deleteExp(${i})">Del</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* ── Modal ── */
+    const editModal = document.getElementById('editModal');
+    const editForm = document.getElementById('editForm');
+    const modalTitle = document.getElementById('modalTitle');
+    let modalSaveHandler = null;
+
+    function openModal(title, fields, onSave) {
+      modalTitle.textContent = title;
+      editForm.innerHTML = fields.map(f => `
+        <div class="field">
+          <label>${f.label}</label>
+          ${f.type === 'textarea'
+            ? `<textarea id="mf_${f.key}">${f.value || ''}</textarea>`
+            : `<input id="mf_${f.key}" value="${(f.value || '').replace(/"/g, '&quot;')}">`}
+          ${f.hint ? `<small>${f.hint}</small>` : ''}
+        </div>
+      `).join('');
+      modalSaveHandler = onSave;
+      editModal.classList.remove('hidden');
+    }
+
+    function closeModal() { editModal.classList.add('hidden'); modalSaveHandler = null; }
+
+    document.getElementById('modalCancel').addEventListener('click', closeModal);
+    document.getElementById('modalSave').addEventListener('click', () => { if (modalSaveHandler) modalSaveHandler(); });
+
+    function getVal(key) { return document.getElementById('mf_' + key).value.trim(); }
+
+    /* ── Project CRUD ── */
+    function projectFields(p) {
+      return [
+        { key: 'title', label: 'Title', value: p?.title },
+        { key: 'description', label: 'Description', type: 'textarea', value: p?.description },
+        { key: 'tech_stack', label: 'Tech Stack', value: p?.tech_stack?.join(', '), hint: 'Comma separated' },
+        { key: 'github_link', label: 'GitHub Link', value: p?.github_link },
+      ];
+    }
+
+    function collectProject() {
+      return {
+        title: getVal('title'),
+        description: getVal('description'),
+        tech_stack: getVal('tech_stack').split(',').map(s => s.trim()).filter(Boolean),
+        github_link: getVal('github_link'),
+      };
+    }
+
+    document.getElementById('addProjectBtn').addEventListener('click', () => {
+      openModal('New Project', projectFields(), async () => {
+        await fetch(API + '/admin/projects', { method: 'POST', headers: authHeaders(), body: JSON.stringify(collectProject()) });
+        closeModal(); loadAll();
+      });
+    });
+
+    window.editProject = (i) => {
+      openModal('Edit Project', projectFields(projects[i]), async () => {
+        await fetch(API + '/admin/projects/' + i, { method: 'PUT', headers: authHeaders(), body: JSON.stringify(collectProject()) });
+        closeModal(); loadAll();
+      });
+    };
+
+    window.deleteProject = async (i) => {
+      if (!confirm('Delete "' + projects[i].title + '"?')) return;
+      await fetch(API + '/admin/projects/' + i, { method: 'DELETE', headers: authHeaders() });
+      loadAll();
+    };
+
+    /* ── Experience CRUD ── */
+    function expFields(e) {
+      return [
+        { key: 'title', label: 'Role / Title', value: e?.title },
+        { key: 'company', label: 'Company', value: e?.company },
+        { key: 'date_range', label: 'Date Range', value: e?.date_range },
+        { key: 'description', label: 'Bullets', type: 'textarea', value: e?.description?.join('\n'), hint: 'One bullet per line' },
+        { key: 'tech_stack', label: 'Tags', value: e?.tech_stack?.join(', '), hint: 'Comma separated' },
+      ];
+    }
+
+    function collectExp() {
+      return {
+        title: getVal('title'),
+        company: getVal('company'),
+        date_range: getVal('date_range'),
+        description: getVal('description').split('\n').map(s => s.trim()).filter(Boolean),
+        tech_stack: getVal('tech_stack').split(',').map(s => s.trim()).filter(Boolean),
+      };
+    }
+
+    document.getElementById('addExpBtn').addEventListener('click', () => {
+      openModal('New Experience', expFields(), async () => {
+        await fetch(API + '/admin/experiences', { method: 'POST', headers: authHeaders(), body: JSON.stringify(collectExp()) });
+        closeModal(); loadAll();
+      });
+    });
+
+    window.editExp = (i) => {
+      openModal('Edit Experience', expFields(experiences[i]), async () => {
+        await fetch(API + '/admin/experiences/' + i, { method: 'PUT', headers: authHeaders(), body: JSON.stringify(collectExp()) });
+        closeModal(); loadAll();
+      });
+    };
+
+    window.deleteExp = async (i) => {
+      if (!confirm('Delete "' + experiences[i].title + '"?')) return;
+      await fetch(API + '/admin/experiences/' + i, { method: 'DELETE', headers: authHeaders() });
+      loadAll();
+    };
+  </script>
+</body>
+</html>
