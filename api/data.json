@@ -1,0 +1,46 @@
+{
+  "projects": [
+    {
+      "title": "RANDORA",
+      "description": "Randomized sparring session generator — pairs techniques and intensities for structured, data-driven training sessions.",
+      "tech_stack": ["TypeScript", "React", "Tailwind", "Supabase"],
+      "github_link": "https://github.com/Arnoshake/Randora"
+    },
+    {
+      "title": "Chess Engine",
+      "description": "Custom evaluation and search engine using bitboard representation and depth-limited minimax with alpha-beta pruning.",
+      "tech_stack": ["C++", "Bitboards", "Minimax"],
+      "github_link": "https://github.com/Arnoshake/ChessBot"
+    },
+    {
+      "title": "GoT Database",
+      "description": "Lore browser built on An API of Ice and Fire — optimized for fast character, house, and timeline lookups.",
+      "tech_stack": ["Python", "FastAPI", "PostgreSQL", "Docker"],
+      "github_link": "https://github.com/Arnoshake/AnApiOfIceAndFire"
+    }
+  ],
+  "experiences": [
+    {
+      "title": "Executive Intern",
+      "company": "HealthTrust",
+      "date_range": "June 2024 – August 2024",
+      "description": [
+        "Reported directly to the President & CEO, attending executive-level meetings and strategic discussions.",
+        "Shadowed senior leadership across cybersecurity, procurement, and financial operations.",
+        "Contributed insights on AI integration and analytics during internal workshops."
+      ],
+      "tech_stack": ["Leadership", "Cybersecurity", "Analytics"]
+    },
+    {
+      "title": "Freelance Technical Assistant",
+      "company": "Self-employed · Franklin, TN",
+      "date_range": "2018 – 2025",
+      "description": [
+        "Assisted in professional audio production setups for a Grammy-winning producer.",
+        "Installed large-scale audio gear, built a freestanding deck, and installed a sauna.",
+        "Served as A1 Grip for a documentary and Production Assistant for an independent TV pilot."
+      ],
+      "tech_stack": ["Audio Engineering", "Production", "Hardware"]
+    }
+  ]
+}
