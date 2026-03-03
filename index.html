@@ -27,34 +27,33 @@
 
 <body class="lights-off">
 
-  <!-- Industrial Mode Toggle -->
-  <button id="modeToggle" type="button"
-    class="fixed right-6 top-6 z-50 inline-flex items-center gap-3 rounded border border-matrix/60 bg-[#1a1a1a] px-5 py-2 font-mono text-xs font-semibold uppercase tracking-[0.25em] text-matrix shadow-[0_0_20px_rgba(0,255,65,0.35)] transition hover:-translate-y-0.5 hover:shadow-[0_0_35px_rgba(0,255,65,0.7)]">
-    <span class="relative flex h-5 w-10 items-center rounded border border-matrix/60 bg-[#0a0a0a]">
-      <span id="modeKnob" class="absolute left-[3px] h-3.5 w-3.5 rounded-sm bg-matrix shadow-[0_0_10px_rgba(0,255,65,0.9)] transition-transform duration-300"></span>
-    </span>
-    <span id="modeLabel">Lights: OFF</span>
-  </button>
+  <!-- CRT scanline overlay -->
+  <div class="scanlines" aria-hidden="true"></div>
 
-  <!-- Floating Navigation -->
-  <nav class="fixed inset-x-0 top-5 z-40 flex justify-center pointer-events-none">
-    <div class="pointer-events-auto flex items-center gap-5 rounded-full border border-matrix/40 bg-[#1a1a1a]/90 px-6 py-2 font-mono text-[0.65rem] uppercase tracking-[0.3em] text-matrix/70 shadow-[0_0_20px_rgba(0,255,65,0.25)] backdrop-blur-sm">
-      <a href="#about" class="hover:text-matrix transition">About</a>
+  <!-- ═══ ANALOG POWER SWITCH ═══ -->
+  <div id="powerSwitch" class="power-switch" title="Toggle power">
+    <div class="ps-housing">
+      <div class="ps-label ps-label-on">FULL</div>
+      <div class="ps-track">
+        <div class="ps-lever"></div>
+      </div>
+      <div class="ps-label ps-label-off">LOW</div>
+      <div class="ps-indicator"></div>
+    </div>
+  </div>
+
+  <!-- Floating Navigation (no About Me link — access via terminal only) -->
+  <nav class="site-nav fixed inset-x-0 top-5 z-40 flex justify-center pointer-events-none">
+    <div class="pointer-events-auto flex items-center gap-5 rounded-full border border-matrix/40 bg-[#282828]/90 px-6 py-2 font-mono text-[0.65rem] uppercase tracking-[0.3em] text-matrix/70 shadow-[0_0_20px_rgba(0,255,65,0.25)] backdrop-blur-sm">
       <a href="#experience" class="hover:text-matrix transition">Experience</a>
       <a href="#projects" class="hover:text-matrix transition">Projects</a>
       <a href="#contact" class="hover:text-matrix transition">Contact</a>
-      <a href="pages/Hobbies.html" class="hover:text-matrix transition">Hobbies</a>
     </div>
   </nav>
 
-  <!-- Page Shell (flashlight mask target) -->
-  <div id="pageShell" class="page-shell min-h-screen bg-black font-mono text-matrix flex flex-col">
-
-    <!-- CRT scanline overlay -->
-    <div class="scanlines" aria-hidden="true"></div>
-
-    <!-- ════════════ ROBCO HERO TERMINAL ════════════ -->
-    <header id="terminal-section" class="mx-auto w-full max-w-5xl px-6 pt-28 pb-12 sm:px-10">
+  <!-- ═══ PERSISTENT TERMINAL ═══ -->
+  <div id="terminal-section" class="terminal-wrapper font-mono text-matrix">
+    <div class="mx-auto w-full max-w-5xl px-6 pt-28 pb-12 sm:px-10">
       <div class="crt-frame">
         <div class="crt-bezel">
           <div id="terminal" class="terminal-body">
@@ -69,14 +68,18 @@
         </div>
       </div>
       <p class="mt-3 text-[0.55rem] text-matrix/30 text-center tracking-[0.3em] uppercase">
-        Try: help &middot; ls projects &middot; ls experience &middot; cat about &middot; contact &middot; clear
+        Try: help &middot; light on &middot; ls projects &middot; cat about &middot; admin
       </p>
-    </header>
+    </div>
+  </div>
+
+  <!-- ═══ PAGE SHELL ═══ -->
+  <div id="pageShell" class="page-shell bg-black font-mono text-matrix flex flex-col">
 
     <main class="flex-1">
 
-      <!-- ════════════ ABOUT ME IDE ════════════ -->
-      <section id="about" class="mx-auto max-w-5xl px-6 pb-20 sm:px-10">
+      <!-- ABOUT ME IDE -->
+      <section id="about" class="mx-auto max-w-5xl px-6 pt-8 pb-20 sm:px-10">
         <h2 class="mb-6 text-[0.65rem] font-semibold uppercase tracking-[0.5em] text-matrix/60">
           About Me
         </h2>
@@ -96,22 +99,24 @@
               <span>4</span><span>5</span><span>6</span><span>7</span><span>8</span>
               <span>9</span><span>10</span><span>11</span><span>12</span><span>13</span>
               <span>14</span><span>15</span><span>16</span><span>17</span><span>18</span>
-              <span>19</span><span>20</span>
+              <span>19</span><span>20</span><span>21</span>
             </div>
             <div class="ide-gutter hidden" id="gutter-config">
               <span>1</span><span class="active-ln">2</span><span class="active-ln">3</span>
               <span>4</span><span>5</span><span>6</span><span>7</span><span>8</span>
               <span>9</span><span>10</span><span>11</span><span>12</span><span>13</span>
               <span>14</span><span>15</span><span>16</span><span>17</span><span>18</span>
-              <span>19</span><span>20</span><span>21</span>
+              <span>19</span><span>20</span><span>21</span><span>22</span><span>23</span>
+              <span>24</span><span>25</span><span>26</span><span>27</span><span>28</span>
+              <span>29</span>
             </div>
 
-            <!-- main.c -->
             <pre class="ide-code ide-panel ide-panel-active" data-panel="main"><code>
 <span class="ln"><span class="kw">#include</span> <span class="str">"config.h"</span></span>
 <span class="ln ln-active"><span class="kw">const</span> <span class="ty">Student_t</span> <span class="var">Zachary</span> <span class="p">= {</span></span>
 <span class="ln ln-active">  .<span class="var">university</span>        <span class="p">=</span> <span class="str">"University of Alabama"</span><span class="p">,</span></span>
 <span class="ln">  .<span class="var">major</span>             <span class="p">=</span> <span class="str">"Computer Engineering"</span><span class="p">,</span></span>
+<span class="ln">  .<span class="var">minor</span>             <span class="p">= {</span><span class="str">"Mathematics"</span><span class="p">,</span> <span class="str">"Computer Science"</span><span class="p">},</span></span>
 <span class="ln">  .<span class="var">status</span>            <span class="p">=</span> <span class="str">"3rd Year Undergraduate"</span><span class="p">,</span></span>
 <span class="ln">  .<span class="var">focus_areas</span>       <span class="p">= {</span></span>
 <span class="ln">    .<span class="key">primary</span>         <span class="p">=</span> <span class="str">"Signal Processing"</span><span class="p">,</span></span>
@@ -119,17 +124,17 @@
 <span class="ln">    .<span class="key">hardware</span>        <span class="p">=</span> <span class="str">"Embedded Systems / STM32"</span></span>
 <span class="ln">  <span class="p">},</span></span>
 <span class="ln">  .<span class="var">favorites</span>         <span class="p">= {</span></span>
-<span class="ln">    .<span class="key">language</span>        <span class="p">=</span> <span class="str">"C/C++ &amp; Python"</span><span class="p">,</span></span>
-<span class="ln">    .<span class="key">book</span>            <span class="p">=</span> <span class="str">"Meditations by Marcus Aurelius"</span><span class="p">,</span></span>
-<span class="ln">    .<span class="key">movie</span>           <span class="p">=</span> <span class="str">"Into the Spider-Verse"</span><span class="p">,</span></span>
-<span class="ln">    .<span class="key">song</span>            <span class="p">=</span> <span class="str">"Night Changes by One Direction"</span><span class="p">,</span></span>
+<span class="ln">    .<span class="key">language</span>        <span class="p">=</span> <span class="str">"Python and C++"</span><span class="p">,</span></span>
+<span class="ln">    .<span class="key">books</span>           <span class="p">= {</span><span class="str">"Game of Thrones"</span><span class="p">,</span> <span class="str">"Dune"</span><span class="p">,</span> <span class="str">"Foundation"</span><span class="p">},</span></span>
+<span class="ln">    .<span class="key">movies</span>          <span class="p">= {</span><span class="str">"Good Will Hunting"</span><span class="p">,</span> <span class="str">"Crazy Stupid Love"</span><span class="p">,</span> <span class="str">"The Big Short"</span><span class="p">,</span> <span class="str">"Dumb and Dumber"</span><span class="p">},</span></span>
+<span class="ln">    .<span class="key">artists</span>         <span class="p">= {</span><span class="str">"Lo-Fi"</span><span class="p">,</span> <span class="str">"Djo"</span><span class="p">,</span> <span class="str">"James Taylor"</span><span class="p">,</span> <span class="str">"Van Halen"</span><span class="p">,</span> <span class="str">"Vulfpeck"</span><span class="p">,</span> <span class="str">"John Mayer"</span><span class="p">,</span> <span class="str">"JPEGMAFIA"</span><span class="p">},</span></span>
+<span class="ln">    .<span class="key">albums</span>          <span class="p">= {</span><span class="str">"Lo-Fidelity by Lo-Fi"</span><span class="p">,</span> <span class="str">"Continuum by John Mayer"</span><span class="p">,</span> <span class="str">"Little Dark Age by MGMT"</span><span class="p">,</span> <span class="str">"Working Class Dog by Rick Springfield"</span><span class="p">,</span> <span class="str">"Honky Chateau by Elton John"</span><span class="p">},</span></span>
 <span class="ln">    .<span class="key">game</span>            <span class="p">=</span> <span class="str">"Minecraft"</span></span>
 <span class="ln">  <span class="p">},</span></span>
-<span class="ln">  .<span class="var">current_research</span>  <span class="p">=</span> <span class="str">"System Design and Distributed Systems"</span></span>
+<span class="ln">  .<span class="var">current_research</span>  <span class="p">=</span> <span class="str">"Applied Acoustics and Signal Processing"</span></span>
 <span class="ln"><span class="p">};</span></span>
             </code></pre>
 
-            <!-- config.h -->
             <pre class="ide-code ide-panel hidden" data-panel="config"><code>
 <span class="ln"><span class="kw">#ifndef</span> <span class="var">CONFIG_H</span></span>
 <span class="ln ln-active"><span class="kw">#define</span> <span class="var">CONFIG_H</span></span>
@@ -141,12 +146,21 @@
 <span class="ln"><span class="kw">typedef struct</span> <span class="p">{</span></span>
 <span class="ln">  <span class="ty">const char*</span> <span class="var">university</span><span class="p">;</span></span>
 <span class="ln">  <span class="ty">const char*</span> <span class="var">major</span><span class="p">;</span></span>
+<span class="ln">  <span class="ty">const char*</span> <span class="var">minor</span><span class="p">[</span><span class="str">2</span><span class="p">];</span></span>
 <span class="ln">  <span class="ty">const char*</span> <span class="var">status</span><span class="p">;</span></span>
 <span class="ln">  <span class="kw">struct</span> <span class="p">{</span></span>
 <span class="ln">    <span class="ty">const char*</span> <span class="key">primary</span><span class="p">;</span></span>
 <span class="ln">    <span class="ty">const char*</span> <span class="key">secondary</span><span class="p">;</span></span>
 <span class="ln">    <span class="ty">const char*</span> <span class="key">hardware</span><span class="p">;</span></span>
 <span class="ln">  <span class="p">}</span> <span class="var">focus_areas</span><span class="p">;</span></span>
+<span class="ln">  <span class="kw">struct</span> <span class="p">{</span></span>
+<span class="ln">    <span class="ty">const char*</span> <span class="key">language</span><span class="p">;</span></span>
+<span class="ln">    <span class="ty">const char*</span> <span class="key">books</span><span class="p">[</span><span class="str">3</span><span class="p">];</span></span>
+<span class="ln">    <span class="ty">const char*</span> <span class="key">movies</span><span class="p">[</span><span class="str">4</span><span class="p">];</span></span>
+<span class="ln">    <span class="ty">const char*</span> <span class="key">artists</span><span class="p">[</span><span class="str">7</span><span class="p">];</span></span>
+<span class="ln">    <span class="ty">const char*</span> <span class="key">albums</span><span class="p">[</span><span class="str">5</span><span class="p">];</span></span>
+<span class="ln">    <span class="ty">const char*</span> <span class="key">game</span><span class="p">;</span></span>
+<span class="ln">  <span class="p">}</span> <span class="var">favorites</span><span class="p">;</span></span>
 <span class="ln">  <span class="ty">const char*</span> <span class="var">current_research</span><span class="p">;</span></span>
 <span class="ln"><span class="p">}</span> <span class="ty">Student_t</span><span class="p">;</span></span>
 <span class="ln"></span>
@@ -156,27 +170,23 @@
         </div>
       </section>
 
-      <!-- ════════════ EXPERIENCE (populated by JS from API or fallback) ════════════ -->
+      <!-- EXPERIENCE -->
       <section id="experience" class="mx-auto max-w-5xl px-6 pb-20 sm:px-10">
         <h2 class="mb-8 text-[0.65rem] font-semibold uppercase tracking-[0.5em] text-matrix/60">
           Experience
         </h2>
-        <div id="experienceList" class="space-y-5">
-          <!-- Cards injected by JS -->
-        </div>
+        <div id="experienceList" class="space-y-5"></div>
       </section>
 
-      <!-- ════════════ PROJECTS (populated by JS from API or fallback) ════════════ -->
+      <!-- PROJECTS -->
       <section id="projects" class="mx-auto max-w-5xl px-6 pb-24 sm:px-10">
         <h2 class="mb-8 text-[0.65rem] font-semibold uppercase tracking-[0.5em] text-matrix/60">
           Projects
         </h2>
-        <div id="projectGrid" class="grid gap-6 md:grid-cols-2">
-          <!-- Cards injected by JS -->
-        </div>
+        <div id="projectGrid" class="grid gap-6 md:grid-cols-2"></div>
       </section>
 
-      <!-- ════════════ CONTACT ════════════ -->
+      <!-- CONTACT -->
       <section id="contact" class="mx-auto max-w-5xl px-6 pb-20 sm:px-10">
         <h2 class="mb-4 text-[0.65rem] font-semibold uppercase tracking-[0.5em] text-matrix/60">
           Contact
@@ -203,32 +213,9 @@
 
   <script>
     /* ═══════════════════════════════════════════════════════════════
-       1. SMOOTH FLASHLIGHT (requestAnimationFrame)
-       ═══════════════════════════════════════════════════════════════ */
-    const root = document.documentElement;
-    let mouseX = -200, mouseY = -200;
-    let rafX = -200, rafY = -200;
-
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
-    (function flashlightLoop() {
-      rafX += (mouseX - rafX) * 0.35;
-      rafY += (mouseY - rafY) * 0.35;
-      root.style.setProperty('--cx', rafX + 'px');
-      root.style.setProperty('--cy', rafY + 'px');
-      requestAnimationFrame(flashlightLoop);
-    })();
-
-    /* ═══════════════════════════════════════════════════════════════
-       2. MODE TOGGLE (lights on / off + flicker transition)
+       1. POWER STATE
        ═══════════════════════════════════════════════════════════════ */
     const body = document.body;
-    const shell = document.getElementById('pageShell');
-    const knob = document.getElementById('modeKnob');
-    const label = document.getElementById('modeLabel');
     let lightsOn = false;
 
     function applyMode(on) {
@@ -239,19 +226,23 @@
       }
       body.classList.toggle('lights-on', on);
       body.classList.toggle('lights-off', !on);
-      label.textContent = on ? 'Lights: ON' : 'Lights: OFF';
-      knob.style.transform = on ? 'translateX(18px)' : 'translateX(0)';
+      document.getElementById('powerSwitch').classList.toggle('on', on);
     }
 
     applyMode(false);
-    document.getElementById('modeToggle').addEventListener('click', () => applyMode(!lightsOn));
+    document.getElementById('powerSwitch').addEventListener('click', () => applyMode(!lightsOn));
 
     /* ═══════════════════════════════════════════════════════════════
-       3. ROBCO TERMINAL
+       2. HIGH-SPEED TERMINAL
        ═══════════════════════════════════════════════════════════════ */
     const termOutput = document.getElementById('termOutput');
     const termInput = document.getElementById('termInput');
     const API_BASE = 'http://localhost:8000';
+
+    const TYPE_DELAY = 8;
+    const LINE_DELAY = 15;
+    let inputLocked = false;
+    let awaitingPassword = false;
 
     function termPrint(text, cls) {
       const div = document.createElement('div');
@@ -261,10 +252,23 @@
       termOutput.scrollTop = termOutput.scrollHeight;
     }
 
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    async function termTypeLine(text, cls) {
+      const div = document.createElement('div');
+      div.className = 'term-line ' + (cls || '');
+      termOutput.appendChild(div);
+      for (let i = 0; i < text.length; i++) {
+        div.textContent += text[i];
+        termOutput.scrollTop = termOutput.scrollHeight;
+        await sleep(TYPE_DELAY);
+      }
+    }
+
     async function typeLines(lines, delay) {
       for (const line of lines) {
-        termPrint(line);
-        await new Promise(r => setTimeout(r, delay));
+        await termTypeLine(line);
+        await sleep(delay || LINE_DELAY);
       }
     }
 
@@ -282,24 +286,25 @@
     ];
 
     async function bootSequence() {
-      await typeLines(BOOT_LINES, 80);
+      inputLocked = true;
+      await typeLines(BOOT_LINES);
       try {
         const res = await fetch(API_BASE + '/projects', { signal: AbortSignal.timeout(2000) });
         if (res.ok) {
-          termPrint('  > NETWORK ....... CONNECTED (FastAPI online)');
-        } else {
-          throw new Error('bad status');
-        }
+          await termTypeLine('  > NETWORK ....... CONNECTED (FastAPI online)');
+        } else { throw new Error(); }
       } catch {
-        termPrint('  > NETWORK ....... OFFLINE (fallback mode)');
+        await termTypeLine('  > NETWORK ....... OFFLINE (fallback mode)');
       }
-      termPrint('');
-      termPrint('  Type "help" for available commands.');
-      termPrint('');
+      await sleep(30);
+      await termTypeLine('');
+      await termTypeLine('  Type "help" for available commands.');
+      await termTypeLine('');
+      inputLocked = false;
       termInput.focus();
     }
 
-    /* ── Fallback data (used when API is unreachable) ── */
+    /* ── Fallback data ── */
     const FALLBACK_PROJECTS = [
       { title: 'RANDORA', description: 'Randomized sparring session generator', tech_stack: ['TypeScript', 'React', 'Tailwind', 'Supabase'], github_link: 'https://github.com/Arnoshake/Randora' },
       { title: 'Chess Engine', description: 'Bitboard engine with minimax + alpha-beta pruning', tech_stack: ['C++', 'Bitboards', 'Minimax'], github_link: 'https://github.com/Arnoshake/ChessBot' },
@@ -307,7 +312,7 @@
     ];
 
     const FALLBACK_EXPERIENCES = [
-      { title: 'Executive Intern', company: 'HealthTrust', date_range: 'June 2024 – August 2024', description: ['Reported directly to the President & CEO, attending executive-level meetings and strategic discussions.', 'Shadowed senior leadership across cybersecurity, procurement, and financial operations.', 'Contributed insights on AI integration and analytics during internal workshops.'], tech_stack: ['Leadership', 'Cybersecurity', 'Analytics'] },
+      { title: 'Executive Intern', company: 'HealthTrust', date_range: 'June 2024 – August 2024', description: ['Reported directly to the President & CEO, attending executive-level meetings.', 'Shadowed senior leadership across cybersecurity, procurement, and financial operations.', 'Contributed insights on AI integration and analytics during internal workshops.'], tech_stack: ['Leadership', 'Cybersecurity', 'Analytics'] },
       { title: 'Freelance Technical Assistant', company: 'Self-employed · Franklin, TN', date_range: '2018 – 2025', description: ['Assisted in professional audio production setups for a Grammy-winning producer.', 'Installed large-scale audio gear, built a freestanding deck, and installed a sauna.', 'Served as A1 Grip for a documentary and Production Assistant for an independent TV pilot.'], tech_stack: ['Audio Engineering', 'Production', 'Hardware'] },
     ];
 
@@ -316,9 +321,7 @@
         const res = await fetch(API_BASE + '/projects', { signal: AbortSignal.timeout(3000) });
         if (!res.ok) throw new Error();
         return await res.json();
-      } catch {
-        return FALLBACK_PROJECTS;
-      }
+      } catch { return FALLBACK_PROJECTS; }
     }
 
     async function fetchExperiences() {
@@ -326,63 +329,122 @@
         const res = await fetch(API_BASE + '/experiences', { signal: AbortSignal.timeout(3000) });
         if (!res.ok) throw new Error();
         return await res.json();
-      } catch {
-        return FALLBACK_EXPERIENCES;
-      }
+      } catch { return FALLBACK_EXPERIENCES; }
     }
 
-    /* ── Terminal command handler ── */
-    function handleCommand(raw) {
+    /* ── Command handler ── */
+    async function handleCommand(raw) {
       const cmd = raw.trim().toLowerCase();
       termPrint('> ' + raw);
+      inputLocked = true;
 
       if (cmd === 'help') {
-        termPrint('  ls projects    — list projects');
-        termPrint('  ls experience  — list experience');
-        termPrint('  cat about      — scroll to About Me');
-        termPrint('  contact        — show email');
-        termPrint('  clear          — clear terminal');
+        await typeLines([
+          '  help           — this list',
+          '  light on       — full power mode',
+          '  light off      — low power mode',
+          '  ls projects    — list projects',
+          '  ls experience  — list experience',
+          '  cat about      — scroll to About Me',
+          '  contact        — show contact info',
+          '  admin          — admin login',
+          '  clear          — clear terminal',
+        ]);
+
+      } else if (cmd === 'light on') {
+        applyMode(true);
+        await termTypeLine('  FULL POWER — all systems online.');
+
+      } else if (cmd === 'light off') {
+        applyMode(false);
+        await termTypeLine('  LOW POWER — terminal-only mode.');
+
       } else if (cmd === 'ls projects') {
-        fetchProjects().then(projects => {
-          projects.forEach(p => {
-            termPrint('  [' + p.title + '] ' + p.tech_stack.join(', '));
-          });
-        });
+        const projects = await fetchProjects();
+        for (const p of projects) {
+          await termTypeLine('  [' + p.title + '] ' + p.tech_stack.join(', '));
+        }
+
       } else if (cmd === 'ls experience') {
-        fetchExperiences().then(exps => {
-          exps.forEach(e => {
-            termPrint('  ' + e.title + ' @ ' + e.company + '  (' + e.date_range + ')');
-          });
-        });
+        const exps = await fetchExperiences();
+        for (const e of exps) {
+          await termTypeLine('  ' + e.title + ' @ ' + e.company + '  (' + e.date_range + ')');
+        }
         document.getElementById('experience').scrollIntoView({ behavior: 'smooth' });
-        termPrint('  Scrolling to Experience...');
+
       } else if (cmd === 'cat about') {
+        if (!lightsOn) applyMode(true);
         document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
-        termPrint('  Scrolling to About Me...');
+        await termTypeLine('  Scrolling to About Me...');
+
       } else if (cmd === 'contact') {
-        termPrint('  Email: zwest2563@gmail.com');
-        termPrint('  GitHub: github.com/Arnoshake');
-        termPrint('  LinkedIn: linkedin.com/in/zachwest2004');
+        await typeLines([
+          '  Email:    zwest2563@gmail.com',
+          '  GitHub:   github.com/Arnoshake',
+          '  LinkedIn: linkedin.com/in/zachwest2004',
+        ]);
+
+      } else if (cmd === 'admin') {
+        await termTypeLine('  ENTER ADMIN PASSWORD:');
+        awaitingPassword = true;
+        inputLocked = false;
+        termInput.type = 'password';
+        termInput.focus();
+        return;
+
       } else if (cmd === 'clear') {
         termOutput.innerHTML = '';
+
       } else if (cmd !== '') {
-        termPrint('  ERROR: Unknown command "' + cmd + '". Type "help".');
+        await termTypeLine('  ERROR: Unknown command "' + cmd + '". Type "help".');
       }
 
       termPrint('');
+      inputLocked = false;
+    }
+
+    async function handlePasswordEntry(raw) {
+      awaitingPassword = false;
+      termInput.type = 'text';
+      termPrint('> ********');
+      inputLocked = true;
+
+      try {
+        const res = await fetch(API_BASE + '/verify-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: raw.trim() }),
+          signal: AbortSignal.timeout(3000),
+        });
+        if (res.ok) {
+          await termTypeLine('  ACCESS GRANTED. Redirecting...');
+          await sleep(400);
+          window.location.href = API_BASE + '/admin';
+        } else {
+          await termTypeLine('  ACCESS DENIED.');
+        }
+      } catch {
+        await termTypeLine('  ERROR: Could not reach server.');
+      }
+      termPrint('');
+      inputLocked = false;
     }
 
     termInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        handleCommand(termInput.value);
-        termInput.value = '';
+      if (e.key !== 'Enter' || inputLocked) return;
+      const val = termInput.value;
+      termInput.value = '';
+      if (awaitingPassword) {
+        handlePasswordEntry(val);
+      } else {
+        handleCommand(val);
       }
     });
 
     bootSequence();
 
     /* ═══════════════════════════════════════════════════════════════
-       4. IDE TAB SWITCHING
+       3. IDE TAB SWITCHING
        ═══════════════════════════════════════════════════════════════ */
     const tabs = document.querySelectorAll('.ide-tab');
     const panels = document.querySelectorAll('.ide-panel');
@@ -404,13 +466,10 @@
     });
 
     /* ═══════════════════════════════════════════════════════════════
-       5. DYNAMIC PROJECT CARDS
+       4. DYNAMIC CARDS
        ═══════════════════════════════════════════════════════════════ */
     function renderProjectCard(p) {
-      const tags = p.tech_stack.map(t =>
-        `<span class="tag">${t}</span>`
-      ).join('');
-
+      const tags = p.tech_stack.map(t => `<span class="tag">${t}</span>`).join('');
       return `
         <a href="${p.github_link}" target="_blank" class="group">
           <article class="project-card">
@@ -421,18 +480,9 @@
         </a>`;
     }
 
-    async function loadProjects() {
-      const projects = await fetchProjects();
-      document.getElementById('projectGrid').innerHTML = projects.map(renderProjectCard).join('');
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-       6. DYNAMIC EXPERIENCE CARDS
-       ═══════════════════════════════════════════════════════════════ */
     function renderExperienceCard(e) {
       const bullets = e.description.map(b => `<li>${b}</li>`).join('');
       const tags = e.tech_stack.map(t => `<span class="tag">${t}</span>`).join('');
-
       return `
         <article class="experience-card">
           <div class="exp-header">
@@ -447,13 +497,13 @@
         </article>`;
     }
 
-    async function loadExperiences() {
-      const exps = await fetchExperiences();
+    async function loadContent() {
+      const [projects, exps] = await Promise.all([fetchProjects(), fetchExperiences()]);
+      document.getElementById('projectGrid').innerHTML = projects.map(renderProjectCard).join('');
       document.getElementById('experienceList').innerHTML = exps.map(renderExperienceCard).join('');
     }
 
-    loadProjects();
-    loadExperiences();
+    loadContent();
   </script>
 </body>
 </html>
